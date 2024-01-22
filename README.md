@@ -44,7 +44,7 @@ The Github Actions tasks defined inside [docker.yml](.github/workflows) will be 
 
 cat $HOME/.kube/config | base64
 
-* DOCKERHUB_USERNAME: Your Dockerhub Username
-* DOCKERHUB_TOKEN: Your Dockerhub access token
+* REGISTRY_USER: Your Dockerhub Username
+* REGISTRY_TOKEN: Your Dockerhub access token
 * AWS_ACCESS_KEY_ID: Your AWS Access Key ID that is allowed to use the EKS cluster.
 * AWS_SECRET_ACCESS_KEY: Your AWS Secret Access Key that is allowed to use the EKS cluster.

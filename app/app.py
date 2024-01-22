@@ -16,8 +16,8 @@ print(app_name)
 def index():
     images = [
         url_for('static', filename='version1.png'),
-        url_for('static', filename='version2.png'),
-        url_for('static', filename='version3.png'),
+#        url_for('static', filename='version2.png'),
+#        url_for('static', filename='version3.png'),
         url_for('static', filename='version4.png'),
     ]
     url = random.choice(images)

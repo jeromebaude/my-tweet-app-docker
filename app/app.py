@@ -7,7 +7,7 @@ from flask import Flask, render_template, url_for, request, jsonify
 
 app = Flask(__name__)
 
-app_name = 'Demo Application for the Dev and Hops event in Paris BapBap'
+app_name = 'Demo Application for ABC Corporation powered by'
 
 print(app_name)
 
@@ -15,10 +15,10 @@ print(app_name)
 @app.route('/')
 def index():
     images = [
-        url_for('static', filename='beachops-1.png'),
-        url_for('static', filename='beachops-2.png'),
-        url_for('static', filename='norules-1.png'),
-        url_for('static', filename='norules-2.png'),
+        url_for('static', filename='version1.png'),
+        url_for('static', filename='version2.png'),
+        url_for('static', filename='version3.png'),
+        url_for('static', filename='version4.png'),
     ]
     url = random.choice(images)
     hostname = platform.node()

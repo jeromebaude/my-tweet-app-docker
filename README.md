@@ -1,6 +1,6 @@
 # my-tweet-app-docker 
 
-![alt text](https://github.com/jeromebaude/my-tweet-app-docker/blob/main/app/static/ABC-2021-LOGO.jpg?raw=true)
+![alt text](https://github.com/jeromebaude/my-tweet-app-docker/blob/main/app/static/ABC-2021-LOGO-small.jpg?raw=true)
 
 Docker demo example application
 

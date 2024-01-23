@@ -2,7 +2,7 @@
 FROM alpine:3.10
 
 # Maintainer
-LABEL maintainer="andreas@lacework.net"
+LABEL maintainer="jerome.baude@gmail.com"
 
 RUN apk add --no-cache py3-pip
 

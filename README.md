@@ -6,9 +6,15 @@ Docker demo example application
 
 ## For what is this repository?
 
-This application is designed to show how easy it is to build a Docker image and scan it with Docker Scout with Visual Studio Code and GitHub Actions.
+This application is designed to show how easy it is to build a Docker image and scan it with Docker Scout using  GitHub Actions.
 
-It is using a simple Docker container image based on Alpine, Python and Flask as componentes that have some vulnerabilities.
+It is using a simple Docker container image based on Alpine, Python and Flask as components that have some vulnerabilities.
+
+We are going to build a new Docker image and compare it with our production image. 
+
+Docker Scout will tell us if the new image complies with our security requirements.
+
+The production image is stored in DockerHub: index.docker.io/jeromebaude/my-tweet-app-docker:production
 
 ## How can you use it?
 
@@ -16,35 +22,59 @@ To be able to use it you must have:
 
 1. A Github account that you can use to fork this repository
 2. Installation of Visual Studio Code on your local machine
-3. A AWS EKS Kubernetes cluster
-4. Your AWS access key that is allowed to manage the EKS cluster
-5. A DockerHub account that can be used to save your images build via Github Actions
+3. Docker Desktop 
+4. A DockerHub account with Docker Scout enabled
 
 
-### Get Visual Studio Code up and running.
+### Build your image locally
 
-TBD
-You can test it by executing a Task via Command+Shift+P and select one of the following:
+Please update your Dockerfile with Dockerfile.vuln content and ./app/requirements.txt with ./app/requirements.txt.vuln content
 
-It is important to use the right Task, as you otherwise might see some diffs between your local image scan and the scan of the Github Actions.
+Run the following commands:
+```
+docker build -t jeromebaude/my-tweet-app-docker:v1 .
+```
 
-### Create an AWS EKS cluster for your runtime.
+### Run your image locally
 
-Before you can use the full Github Actions deployment you need to create an AWS EKS cluster, so we can deploy the application to. We highly recommend using eksctl to create it [https://eksctl.io/](.https://eksctl.io/) Please make sure that you have the access key and secret of the account that was used to create the EKS cluster.
+Run the following commands:
+```
+docker run -d -p 5000:5000  jeromebaude/my-tweet-app-docker:v1
+```
 
-### DockerHub account
+Check that http://localhost:5000 renders the desire look and feel
 
-For the Github Action task to be able to push the image that will be used by your kubernetes cluster you need to have a DockerHub account that can be used for the repositories.
+### Check your image vulnerabilities
 
-### Starting the Github Action tasks.
+Check the vulnerabilities of your newly built image
+```
+ docker scout quickview
+```
+
+Compare the new image vulnerabilities with your production image
+```
+ docker scout compare --to jeromebaude/my-tweet-app-docker:production jeromebaude/my-tweet-app-docker:v1
+```
+
+### Push your changes to your remote GitHub repo and run GitHub Actions
 
 The Github Actions tasks defined inside [docker.yml](.github/workflows) will be auto started as soon as you commit anything to your new Github repository. However to get it up and running you need to configure the following secrets inside your Github repository (Settings > Secrets):
 
-* KUBE_CONFIG_DATA: KUBE_CONFIG_DATA – required: A base64-encoded kubeconfig file with credentials for Kubernetes to access the cluster. You can get it by running the following command:
-
-cat $HOME/.kube/config | base64
-
 * REGISTRY_USER: Your Dockerhub Username
 * REGISTRY_TOKEN: Your Dockerhub access token
-* AWS_ACCESS_KEY_ID: Your AWS Access Key ID that is allowed to use the EKS cluster.
-* AWS_SECRET_ACCESS_KEY: Your AWS Secret Access Key that is allowed to use the EKS cluster.
+
+Commit and push changes to the remote repo:
+```
+ git add Dockerfile ./app/requirements.txt
+ git commit -m "updating my Docker image to be built"
+ git push
+```
+You can check your GitHub Action Workflow and adapt it according to your needs.
+
+### Clean your environment
+
+```
+ docker rm -f $(docker ps -a -q)
+ cp ./app/requirements.txt.vuln ./app/requirements.txt
+ cp Dockerfile.vuln Dockerfile 
+```

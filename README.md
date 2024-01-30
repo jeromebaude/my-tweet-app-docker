@@ -2,7 +2,7 @@
 
 ![alt text](https://github.com/jeromebaude/my-tweet-app-docker/blob/main/app/static/ABC-2021-LOGO-small.jpg?raw=true)
 
-Docker demo example application
+Docker demo application
 
 ## For what is this repository?
 

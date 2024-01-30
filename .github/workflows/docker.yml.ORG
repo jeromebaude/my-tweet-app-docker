@@ -1,10 +1,9 @@
 name: GitHub Actions Demo
 on:
   push:
-    tags: ["*"]
     branches: [ main ]
   pull_request:
-    branches: [ "**" ]
+    branches: [ main ]
     
 env:
   # Hostname of your registry
@@ -69,12 +68,13 @@ jobs:
       # Compare the image built in the last push with the reference
       - name: Docker Scout
         id: docker-scout
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'push' }}
         uses: docker/scout-action@v1
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
-          to-env: production
+          to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.COMPARE_TAG }}
           ignore-unchanged: true
           only-severities: critical,high
-          token: ${{ secrets.REGISTRY_TOKEN }}
+          write-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }} # to be able to write the comment

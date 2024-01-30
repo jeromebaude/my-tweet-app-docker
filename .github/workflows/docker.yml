@@ -74,6 +74,7 @@ jobs:
         with:
           command: compare
           image: ${{ steps.meta.outputs.tags }}
+          organization: jeromebaude
           to-env: production
           ignore-unchanged: true
           only-severities: critical,high
